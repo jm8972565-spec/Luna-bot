@@ -1,2 +1,11 @@
+[project]
+name = "luna-bot"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "flask",
+    "openai",
+]
+
 [tool.vercel]
 entrypoint = "api.generate:app"
