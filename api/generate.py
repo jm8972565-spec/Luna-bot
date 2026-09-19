@@ -1,9 +1,17 @@
 import os
 import json
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from openai import OpenAI
 
 app = Flask(__name__)
+
+
+@app.route("/", methods=["GET"])
+def home():
+    return send_file(
+        os.path.join(os.path.dirname(__file__), "..", "index.html")
+    )
+
 
 @app.route("/api/generate", methods=["POST"])
 def generate():
