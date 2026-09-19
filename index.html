@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Luna Bot V3</title>
+<style>
+body{margin:0;background:#120d17;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.box{max-width:650px;margin:auto;padding:22px}.card{background:#201625;border:1px solid #3a2941;border-radius:22px;padding:18px;margin:14px 0}
+h1{margin:0 0 6px;font-size:30px}.sub{color:#cdbed1}
+label{display:block;color:#cdbed1;margin-top:14px;font-size:13px}
+select,input,button{width:100%;padding:14px;border-radius:13px;font-size:16px;margin-top:7px;box-sizing:border-box}
+select,input{background:#302335;color:#fff;border:1px solid #4a3650}
+button{background:#d98cff;border:0;color:#160d1a;font-weight:800}
+.result{display:none}.item{background:#160f1b;border-radius:14px;padding:14px;margin-top:7px;line-height:1.5}.small{font-size:12px;color:#9f8fa5;margin-top:14px}
+</style></head>
+<body><div class="box">
+<h1>🌙 Luna Bot V3</h1><p class="sub">AI-powered Luna content generator</p>
+<div class="card">
+<label>Content type</label><select id="type"><option>Short video</option><option>Lifestyle</option><option>Travel</option><option>Beauty</option></select>
+<label>Topic (optional)</label><input id="topic" placeholder="e.g. cozy evening in Brussels">
+<button onclick="generate()">✨ Generate with AI</button>
+</div>
+<div id="out" class="card result">
+<div class="small">IDEA</div><div id="idea" class="item"></div>
+<div class="small">SCRIPT</div><div id="script" class="item"></div>
+<div class="small">CAPTION</div><div id="caption" class="item"></div>
+</div></div>
+<script>
+async function generate(){
+ const b=document.querySelector("button"); b.disabled=true; b.textContent="Generating...";
+ try{
+  const r=await fetch("/api/generate",{method:"POST",headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({type:document.getElementById("type").value,topic:document.getElementById("topic").value})});
+  const d=await r.json(); if(!r.ok) throw new Error(d.error||"Generation failed");
+  idea.textContent=d.idea;script.textContent=d.script;caption.textContent=d.caption;out.style.display="block";
+ }catch(e){alert(e.message)}
+ b.disabled=false;b.textContent="✨ Generate with AI";
+}
+</script></body></html>
