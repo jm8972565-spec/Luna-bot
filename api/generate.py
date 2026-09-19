@@ -9,7 +9,10 @@ app = Flask(__name__)
 def generate():
     try:
         data = request.get_json(silent=True) or {}
-        client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+
+        client = OpenAI(
+            api_key=os.environ["OPENAI_API_KEY"]
+        )
 
         prompt = f"""
 Create content for Luna, a fictional adult virtual AI creator.
@@ -23,7 +26,6 @@ script
 caption
 
 Keep it SFW, natural, warm, elegant and suitable for a public social-media post.
-
 Do not claim Luna is a real person.
 """
 
@@ -33,6 +35,7 @@ Do not claim Luna is a real person.
         )
 
         result = json.loads(response.output_text)
+
         return jsonify(result)
 
     except Exception as e:
